@@ -17,16 +17,20 @@ def get_book_text(filepath):
         sys.exit(1)
 
 def main():
-    if not sys.argv or len(sys.argv) < 2:
-        print("Usage: python3 main.py <path_to_book>")
-        print("Example: python3 main.py books/frankenstein.txt")
-        sys.exit(1)
-    
     print("============ BOOKBOT ============")
 
-    book_path = sys.argv[1]
-    text = get_book_text(book_path)
-    print(f"Analyzing book found at {book_path}...")
+    text = ""
+
+    if len(sys.argv) >= 2:
+        book_path = sys.argv[1]
+        text = get_book_text(book_path)
+        print(f"Analyzing book found at {book_path}...")
+    elif sys.stdin.isatty():
+        print("Usage: bookbot <path_to_book>")
+        sys.exit(1)
+    else:
+        text = sys.stdin.read()
+        print("Analyzing book from stdin...")
 
     print("----------- Word Count ----------")
     word_count = get_word_count(text)
